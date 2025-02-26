@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: monospace;
+            background-color: black;
+            color: lime;
+            overflow: hidden;
+            position: relative;
+            padding: 20px;
+        }
+        .hack-screen {
+            width: 100%;
+            height: 100vh;
+            white-space: pre-wrap;
+            overflow: hidden;
+            font-size: 14px;
+            text-align: left;
+        }
+        .alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: red;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            display: none;
+        }
+        .glitch {
+            animation: glitch 0.1s infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(2px, -2px); filter: invert(1); }
+            50% { transform: translate(-2px, 2px); filter: blur(2px); }
+            100% { transform: translate(0, 0); filter: none; }
+        }
+        .flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            opacity: 0;
+            transition: opacity 0.1s;
+        }
+        .jumpscare {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 100vh;
+            display: none;
+        }
+        .exit-btn {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: red;
+            color: white;
+            font-size: 20px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Click anywhere to load</h1>
+    <div class="hack-screen" id="hack-screen"></div>
+    <div class="alert" id="alert">⚠️ SYSTEM BREACH DETECTED ⚠️</div>
+    <div class="flash" id="flash"></div>
+    <img id="jumpscare" class="jumpscare" src="images/jump.jpg" alt="Jump Scare Image">
+    <button id="exit-btn" class="exit-btn">EXIT</button>
+    
+    <audio id="glitch-sound" src="https://www.fesliyanstudios.com/play-mp3/4384"></audio>
+    <audio id="alert-sound" src="https://www.fesliyanstudios.com/play-mp3/4383"></audio>
+    <audio id="scream-sound" src="https://www.fesliyanstudios.com/play-mp3/4385"></audio>
+    
+    <script>
+        const fakeLogs = [
+            '[+] Connecting to server... OK',
+            '[+] Bypassing firewall... OK',
+            '[+] Injecting malware... 60%',
+            '[+] Injecting malware... 90%',
+            '[ERROR] SYSTEM BREACH DETECTED!',
+            '[WARNING] Initiating self-destruction sequence...'
+        ];
+
+        document.body.addEventListener('click', function() {
+            const hackScreen = document.getElementById('hack-screen');
+            const alertBox = document.getElementById('alert');
+            const flash = document.getElementById('flash');
+            const jumpScare = document.getElementById('jumpscare');
+            const exitBtn = document.getElementById('exit-btn');
+            const glitchSound = document.getElementById('glitch-sound');
+            const alertSound = document.getElementById('alert-sound');
+            const screamSound = document.getElementById('scream-sound');
+            let i = 0;
+            
+            hackScreen.innerHTML = '';
+            hackScreen.classList.add('glitch');
+            
+            let interval = setInterval(() => {
+                if (i < fakeLogs.length) {
+                    hackScreen.innerHTML += fakeLogs[i] + '\n';
+                    glitchSound.play();
+                    flash.style.opacity = '1';
+                    setTimeout(() => flash.style.opacity = '0', 50);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    hackScreen.classList.remove('glitch');
+                    alertBox.style.display = 'block';
+                    alertSound.play();
+                    setTimeout(() => { 
+                        alertBox.style.display = 'none';
+                        jumpScare.style.display = 'block';
+                        screamSound.play();
+                        exitBtn.style.display = 'block';
+                    }, 2000);
+                }
+            }, 1000);
+        });
+
+        document.getElementById('exit-btn').addEventListener('click', function() {
+            document.getElementById('scream-sound').play();
+        });
+    </script>
+</body>
+</html>
