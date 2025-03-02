@@ -92,6 +92,8 @@
         const fakeLogs = [
             '[+] Connecting to server... OK',
             '[+] Bypassing firewall... OK',
+            '[+] Injecting malware... 10%',
+            '[+] Injecting malware... 30%',
             '[+] Injecting malware... 60%',
             '[+] Injecting malware... 90%',
             '[ERROR] SYSTEM BREACH DETECTED!',
@@ -99,6 +101,7 @@
         ];
 
         document.body.addEventListener('click', function() {
+            document.documentElement.requestFullscreen(); // Auto Fullscreen Mode
             const hackScreen = document.getElementById('hack-screen');
             const alertBox = document.getElementById('alert');
             const flash = document.getElementById('flash');
@@ -126,16 +129,19 @@
                     alertSound.play();
                     setTimeout(() => { 
                         alertBox.style.display = 'none';
-                        jumpScare.style.display = 'block';
-                        screamSound.play();
-                        exitBtn.style.display = 'block';
+                        let flicker = setInterval(() => {
+                            flash.style.opacity = flash.style.opacity === '1' ? '0' : '1';
+                        }, 100);
+                        setTimeout(() => {
+                            clearInterval(flicker);
+                            flash.style.opacity = '0';
+                            jumpScare.style.display = 'block';
+                            screamSound.play();
+                            exitBtn.style.display = 'block';
+                        }, 1500);
                     }, 2000);
                 }
             }, 1000);
-        });
-
-        document.getElementById('exit-btn').addEventListener('click', function() {
-            document.getElementById('scream-sound').play();
         });
     </script>
 </body>
